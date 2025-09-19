@@ -175,6 +175,7 @@ const Skiper31Demo2 = () => {
     "/images/Icon/rrr.png",
     "/images/Icon/TypeScript.png",
     "/images/Icon/vscode.png",
+    "/images/Icon/c-.png",
   ];
   const iconCenterIndex = Math.floor(platformIcons.length / 2);
 
