@@ -61,7 +61,7 @@ export function ShareButtonDemo(): JSX.Element {
         className="text-sm font-medium bg-white hover:bg-gray-50 text-neutral border border-neutral/10"
       >
         <Link size={16} />
-        Share
+        Connect
       </ShareButton>
     </div>
   );

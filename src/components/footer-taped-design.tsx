@@ -26,12 +26,12 @@ export const Component = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="max-w-5xl text-base-content mx-auto">
+    <footer className=" max-w-5xl text-base-content mx-auto">
       <div className="relative bg-white rounded-3xl max-w-5xl mx-auto px-4 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="hidden md:block absolute -top-4 -left-8 w-[80px] h-[36px] scale-75">
+        <div className="hidden md:block absolute -top-2 -left-8 w-[80px] h-[36px] scale-75">
           {tape}
         </div>
-        <div className="hidden md:block absolute -top-4 -right-8 rotate-90 w-[80px] h-[36px] scale-75">
+        <div className="hidden md:block absolute -top-0 -right-8 rotate-90 w-[80px] h-[36px] scale-75">
           {tape}
         </div>
         <div className="flex flex-col md:flex-row items-start justify-between  gap-4 md:gap-10 px-2 md:px-8 flex-1">
