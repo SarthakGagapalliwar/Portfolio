@@ -167,13 +167,13 @@ const Skiper31Demo2 = () => {
   });
 
   const platformIcons = [
-    "/images/Icon/giticon.png",
-    "/images/Icon/mongodb.png",
+    "/images/Icon/rrr.png",
     "/images/Icon/nextjs.png",
+    "/images/Icon/TypeScript.png",
+    "/images/Icon/tailwind.png",
+    "/images/Icon/mongodb.png",
     "/images/Icon/nodejs.png",
     "/images/Icon/Postman.png",
-    "/images/Icon/rrr.png",
-    "/images/Icon/TypeScript.png",
     "/images/Icon/vscode.png",
     "/images/Icon/c-.png",
   ];
