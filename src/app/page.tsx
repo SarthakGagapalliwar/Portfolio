@@ -3,11 +3,13 @@
 import React from "react";
 import Project from "@/pages/Project";
 import Work from "@/pages/Work";
+import Main from "@/pages/page";
 
 const HomePage = () => {
   return (
-  //  <Project></Project>
-  <Work/>
+    <Main></Main>
+    // <Project></Project>
+    // <Work/>
   );
 };
 
