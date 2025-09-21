@@ -77,7 +77,7 @@ const FeaturedProjects: React.FC = () => {
   }, []);
 
   return (
-    <div className="featured-projects">
+    <div className="featured-projects" id="projects">
       {featuredProjectsContent.map(
         (project: FeaturedProject, index: number) => (
           <div key={index} className="featured-project-card">

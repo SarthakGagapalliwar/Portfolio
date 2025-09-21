@@ -36,9 +36,9 @@ const defaultItems: SpotlightItem[] = [
   { name: "MongoDB", img: "/images/Icon/mongodb.png" },
   { name: "Tailwind", img: "/images/Icon/tailwind.png" },
   { name: "Git", img: "/images/Icon/giticon.png" },
+  { name: "C++", img: "/images/Icon/c-.png" },
   { name: "VS Code", img: "/images/Icon/vscode.png" },
   { name: "Postman", img: "/images/Icon/Postman.png" },
-  { name: "C++", img: "/images/Icon/c-.png" },
 ];
 
 const defaultConfig: Config = {

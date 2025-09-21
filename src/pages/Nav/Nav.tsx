@@ -238,6 +238,35 @@ const Nav: React.FC = () => {
     [isNavigating, lenis]
   );
 
+  const handleProjectsClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      if (isNavigating) return;
+
+      // Close the menu first
+      setIsOpen(false);
+
+      // Wait for menu to close, then scroll to projects section
+      setTimeout(() => {
+        const projectsSection = document.getElementById("projects");
+        if (projectsSection && lenis) {
+          lenis.scrollTo(projectsSection, {
+            duration: 2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        } else if (projectsSection) {
+          // Fallback if lenis is not available
+          projectsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 1000); // Wait for menu close animation
+    },
+    [isNavigating, lenis]
+  );
+
   const splitTextIntoSpans = (text: string) => {
     return text
       .split("")
@@ -263,16 +292,13 @@ const Nav: React.FC = () => {
                 </a>
               </div>
               <div className="link">
-                <a href="#skills" onClick={(e) => handleSkillsClick(e)}>
-                  <h2>Skills</h2>
+                <a href="#projects" onClick={(e) => handleProjectsClick(e)}>
+                  <h2>Projects</h2>
                 </a>
               </div>
               <div className="link">
-                <a
-                  href="/spaces"
-                  onClick={(e) => handleLinkClick(e, "/spaces")}
-                >
-                  <h2>Our Spaces</h2>
+                <a href="#skills" onClick={(e) => handleSkillsClick(e)}>
+                  <h2>Skills</h2>
                 </a>
               </div>
               <div className="link">
