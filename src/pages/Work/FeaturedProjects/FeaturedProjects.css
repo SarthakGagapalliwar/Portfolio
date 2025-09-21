@@ -54,6 +54,46 @@
   color: var(--base-350);
 }
 
+.featured-projects .featured-project-info-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.featured-projects .github-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featured-projects .github-icon-link:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.featured-projects .github-icon {
+  width: 50px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: filter 0.2s ease;
+}
+
 .featured-projects .featured-project-card-title h2 {
   padding: 2rem 0 1rem 0;
 }
@@ -100,6 +140,16 @@
     width: 75%;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .featured-projects .featured-project-info-content {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .featured-projects .github-icon {
+    width: 28px;
+    height: 28px;
   }
 
   .featured-projects .featured-project-card-title {

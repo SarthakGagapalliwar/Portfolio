@@ -29,16 +29,16 @@ export interface TelescopeScrollProps {
 }
 
 const defaultItems: SpotlightItem[] = [
-  { name: "Silent Arc", img: "/images/projects/Project1.png" },
-  { name: "Bloom24", img: "/images/projects/Project22.png" },
-  { name: "Glass Fade", img: "/images/projects/project33.png" },
-  { name: "Echo 9", img: "/images/Icon/nextjs.png" },
-  { name: "Velvet Loop", img: "/images/Icon/TypeScript.png" },
-  { name: "Field Two", img: "/images/Icon/nodejs.png" },
-  { name: "Pale Thread", img: "/images/Icon/mongodb.png" },
-  { name: "Stillroom", img: "/images/Icon/tailwind.png" },
-  { name: "Ghostline", img: "/images/Icon/giticon.png" },
-  { name: "Mono 73", img: "/images/Icon/vscode.png" },
+  { name: "React", img: "/images/Icon/rrr.png" },
+  { name: "Next.js", img: "/images/Icon/nextjs.png" },
+  { name: "TypeScript", img: "/images/Icon/TypeScript.png" },
+  { name: "Node.js", img: "/images/Icon/nodejs.png" },
+  { name: "MongoDB", img: "/images/Icon/mongodb.png" },
+  { name: "Tailwind", img: "/images/Icon/tailwind.png" },
+  { name: "Git", img: "/images/Icon/giticon.png" },
+  { name: "VS Code", img: "/images/Icon/vscode.png" },
+  { name: "Postman", img: "/images/Icon/Postman.png" },
+  { name: "C++", img: "/images/Icon/c-.png" },
 ];
 
 const defaultConfig: Config = {
@@ -307,7 +307,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
   return (
     <div className={styles.telescopeContainer}>
       <section id="skills" className={styles.intro}>
-        <h1>A curated series of surreal frames.</h1>
+        <h1>A snapshot of what I do best. ↓</h1>
       </section>
 
       <section className={`${styles.spotlight} spotlight`}>
@@ -378,7 +378,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
         </div>
 
         <div className={styles.spotlightHeader} ref={spotlightHeaderRef}>
-          <p>Discover</p>
+          <p>Specialties</p>
         </div>
       </section>
 
