@@ -26,17 +26,19 @@ function HandWrittenTitle({
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto py-24">
-      <div className="absolute inset-0">
+    <div className="relative w-full max-w-5xl mx-auto py-4 sm:py-8 md:py-12 lg:py-16 px-2 sm:px-4  md:px-6">
+      {/* SVG Container with better mobile sizing */}
+      <div className="relative w-full" style={{ aspectRatio: "2/1" }}>
         <motion.svg
           width="100%"
           height="100%"
           viewBox="0 0 1200 600"
           initial="hidden"
           animate="visible"
-          className="w-full h-full"
+          className="w-full h-auto"
+          preserveAspectRatio="xMidYMid meet"
         >
-          <title>KokonutUI</title>
+          <title>Sarthak</title>
           <motion.path
             d="M 950 90 
                            C 1250 300, 1050 480, 600 520
@@ -44,34 +46,42 @@ function HandWrittenTitle({
                            C 150 120, 350 80, 600 80
                            C 850 80, 950 180, 950 180"
             fill="none"
-            strokeWidth="12"
             stroke="currentColor"
             strokeLinecap="round"
             strokeLinejoin="round"
             variants={draw}
-            className="text-black opacity-90"
+            className="text-black opacity-80"
+            strokeWidth="8"
+            style={{
+              strokeWidth: "clamp(3px, 0.8vw, 8px)",
+              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.1))",
+            }}
           />
         </motion.svg>
-      </div>
-      <div className="relative text-center z-10 flex flex-col items-center justify-center">
-        <motion.h1
-          className="text-4xl md:text-6xl text-black tracking-tighter flex items-center gap-2"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-        >
-          {title}
-        </motion.h1>
-        {subtitle && (
-          <motion.p
-            className="text-xl text-black/80"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8 }}
+
+        {/* Text positioned absolutely over the SVG */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <motion.h1
+            className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-black font-bold tracking-tight leading-tight"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            style={{ textShadow: "0 1px 2px rgba(255,255,255,0.8)" }}
           >
-            {subtitle}
-          </motion.p>
-        )}
+            {title}
+          </motion.h1>
+          {subtitle && (
+            <motion.p
+              className="text-xs sm:text-sm md:text-base lg:text-lg text-black/70 mt-1 sm:mt-2 font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.8 }}
+              style={{ textShadow: "0 1px 2px rgba(255,255,255,0.8)" }}
+            >
+              {subtitle}
+            </motion.p>
+          )}
+        </div>
       </div>
     </div>
   );

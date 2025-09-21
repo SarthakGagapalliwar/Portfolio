@@ -9,13 +9,13 @@ import { motion } from "framer-motion";
  */
 const CentralLogo = () => (
   <img
-    src="https://vucvdpamtrjkzmubwlts.supabase.co/storage/v1/object/public/users/user_2zMtrqo9RMaaIn4f8F2z3oeY497/avatar.png"
-    alt="Logo"
+    src="/images/profileImg/IMG_20250921_173906.jpg"
+    alt="Profile"
     className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover shadow-lg"
     onError={(e) => {
       const target = e.target as HTMLImageElement;
       target.onerror = null;
-      target.src = "https://placehold.co/96x96/27272a/ffffff?text=Logo";
+      target.src = "https://placehold.co/96x96/27272a/ffffff?text=Profile";
     }}
   />
 );

@@ -2,7 +2,7 @@ import { HandWrittenTitle } from "@/components/ui/hand-writing-text"
 
 
 function HandWrittenTitleDemo() {
-    return <HandWrittenTitle title="Kokonut UI" subtitle="Optional subtitle" />
+    return <HandWrittenTitle title="Sarthak" subtitle="FrontEnd Developer" />
 }
 
 export { HandWrittenTitleDemo }

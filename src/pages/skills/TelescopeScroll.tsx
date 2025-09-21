@@ -1,0 +1,389 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import styles from "./TelescopeScroll.module.css";
+import Image from "next/image";
+
+// Register GSAP plugins
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+export interface SpotlightItem {
+  name: string;
+  img: string;
+}
+
+export interface Config {
+  gap: number;
+  speed: number;
+  arcRadius: number;
+}
+
+export interface TelescopeScrollProps {
+  items?: SpotlightItem[];
+  config?: Partial<Config>;
+}
+
+const defaultItems: SpotlightItem[] = [
+  { name: "Silent Arc", img: "/images/projects/Project1.png" },
+  { name: "Bloom24", img: "/images/projects/Project22.png" },
+  { name: "Glass Fade", img: "/images/projects/project33.png" },
+  { name: "Echo 9", img: "/images/Icon/nextjs.png" },
+  { name: "Velvet Loop", img: "/images/Icon/TypeScript.png" },
+  { name: "Field Two", img: "/images/Icon/nodejs.png" },
+  { name: "Pale Thread", img: "/images/Icon/mongodb.png" },
+  { name: "Stillroom", img: "/images/Icon/tailwind.png" },
+  { name: "Ghostline", img: "/images/Icon/giticon.png" },
+  { name: "Mono 73", img: "/images/Icon/vscode.png" },
+];
+
+const defaultConfig: Config = {
+  gap: 0.08,
+  speed: 0.3,
+  arcRadius: 500,
+};
+
+const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
+  items = defaultItems,
+  config: userConfig = {},
+}) => {
+  const config = { ...defaultConfig, ...userConfig };
+
+  const lenisRef = useRef<Lenis | null>(null);
+  const titlesContainerRef = useRef<HTMLDivElement>(null);
+  const imagesContainerRef = useRef<HTMLDivElement>(null);
+  const spotlightHeaderRef = useRef<HTMLParagraphElement>(null);
+  const titlesContainerElementRef = useRef<HTMLDivElement>(null);
+  const introTextElementsRef = useRef<HTMLDivElement[]>([]);
+  const imageElementsRef = useRef<HTMLDivElement[]>([]);
+  const titleElementsRef = useRef<HTMLHeadingElement[]>([]);
+  const bgImageRef = useRef<HTMLDivElement>(null);
+  const bgImageImgRef = useRef<HTMLImageElement>(null);
+  const [currentActiveIndex, setCurrentActiveIndex] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize Lenis smooth scrolling
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    lenisRef.current = new Lenis();
+
+    const handleScroll = () => {
+      ScrollTrigger.update();
+    };
+
+    lenisRef.current.on("scroll", handleScroll);
+
+    const ticker = (time: number) => {
+      if (lenisRef.current) {
+        lenisRef.current.raf(time * 1000);
+      }
+    };
+
+    gsap.ticker.add(ticker);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+      }
+      gsap.ticker.remove(ticker);
+    };
+  }, []);
+
+  // Bezier curve calculations
+  const getBezierPosition = (t: number) => {
+    const containerWidth = window.innerWidth * 0.3;
+    const containerHeight = window.innerHeight;
+    const arcStartX = containerWidth - 220;
+    const arcStartY = -200;
+    const arcEndY = containerHeight + 200;
+    const arcControlPointX = arcStartX + config.arcRadius;
+    const arcControlPointY = containerHeight / 2;
+
+    const x =
+      (1 - t) * (1 - t) * arcStartX +
+      2 * (1 - t) * t * arcControlPointX +
+      t * t * arcStartX;
+    const y =
+      (1 - t) * (1 - t) * arcStartY +
+      2 * (1 - t) * t * arcControlPointY +
+      t * t * arcEndY;
+    return { x, y };
+  };
+
+  const getImgProgressState = (index: number, overallProgress: number) => {
+    const startTime = index * config.gap;
+    const endTime = startTime + config.speed;
+
+    if (overallProgress < startTime) return -1;
+    if (overallProgress > endTime) return 2;
+
+    return (overallProgress - startTime) / config.speed;
+  };
+
+  // Initialize scroll trigger
+  useEffect(() => {
+    if (typeof window === "undefined" || !isInitialized) return;
+
+    const imageElements = imageElementsRef.current;
+    const titleElements = titleElementsRef.current;
+    const introTextElements = introTextElementsRef.current;
+    const spotlightHeader = spotlightHeaderRef.current;
+    const titlesContainerElement = titlesContainerElementRef.current;
+    const bgImage = bgImageRef.current;
+    const bgImageImg = bgImageImgRef.current;
+    const titlesContainer = titlesContainerRef.current;
+
+    if (!imageElements.length || !titleElements.length) return;
+
+    // Set initial states
+    imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+
+    const scrollTrigger = ScrollTrigger.create({
+      trigger: ".spotlight",
+      start: "top top",
+      end: `+=${window.innerHeight * 10}px`,
+      pin: true,
+      pinSpacing: true,
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+
+        if (progress <= 0.011) {
+          // const animationProgress = progress / 0.2;
+          // const moveDistance = window.innerWidth * 0.6;
+
+          // if (introTextElements[0]) {
+          //   gsap.set(introTextElements[0], {
+          //     x: -animationProgress * moveDistance,
+          //   });
+          // }
+          // if (introTextElements[1]) {
+          //   gsap.set(introTextElements[1], {
+          //     x: animationProgress * moveDistance,
+          //   });
+          // }
+
+          // introTextElements.forEach((el) => {
+          //   if (el) gsap.set(el, { opacity: 1 });
+          // });
+
+          // if (bgImage) {
+          //   gsap.set(bgImage, {
+          //     transform: `scale(${animationProgress})`,
+          //   });
+          // }
+          // if (bgImageImg) {
+          //   gsap.set(bgImageImg, {
+          //     transform: `scale(${1.5 - animationProgress * 0.5})`,
+          //   });
+          // }
+
+          // imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+          if (spotlightHeader) spotlightHeader.style.opacity = "0";
+          if (titlesContainerElement) {
+            gsap.set(titlesContainerElement, {
+              "--before-opacity": "0",
+              "--after-opacity": "0",
+            });
+          }
+        } else if (progress > 0.011 && progress <= 0.15) {
+          if (bgImage) gsap.set(bgImage, { transform: "scale(1)" });
+          if (bgImageImg) gsap.set(bgImageImg, { transform: "scale(1)" });
+
+          introTextElements.forEach((el) => {
+            if (el) gsap.set(el, { opacity: 0 });
+          });
+
+          imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
+          if (spotlightHeader) spotlightHeader.style.opacity = "1";
+          if (titlesContainerElement) {
+            gsap.set(titlesContainerElement, {
+              "--before-opacity": "1",
+              "--after-opacity": "1",
+            });
+          }
+        } else if (progress > 0.15 && progress <= 0.95) {
+          if (bgImage) gsap.set(bgImage, { transform: "scale(1)" });
+          if (bgImageImg) gsap.set(bgImageImg, { transform: "scale(1)" });
+
+          introTextElements.forEach((el) => {
+            if (el) gsap.set(el, { opacity: 0 });
+          });
+
+          if (spotlightHeader) spotlightHeader.style.opacity = "1";
+          if (titlesContainerElement) {
+            gsap.set(titlesContainerElement, {
+              "--before-opacity": "1",
+              "--after-opacity": "1",
+            });
+          }
+
+          const switchProgress = (progress - 0.15) / 0.8;
+          const viewportHeight = window.innerHeight;
+          const titlesContainerHeight = titlesContainer?.scrollHeight || 0;
+          const startPosition = viewportHeight;
+          const targetPosition = -titlesContainerHeight;
+          const totalDistance = startPosition - targetPosition;
+          const currentY = startPosition - switchProgress * totalDistance;
+
+          if (titlesContainer) {
+            gsap.set(titlesContainer, {
+              transform: `translateY(${currentY}px)`,
+            });
+          }
+
+          imageElements.forEach((img, index) => {
+            const imageProgress = getImgProgressState(index, switchProgress);
+
+            if (imageProgress < 0 || imageProgress > 1) {
+              gsap.set(img, { opacity: 0 });
+            } else {
+              const pos = getBezierPosition(imageProgress);
+              gsap.set(img, {
+                x: pos.x - 100,
+                y: pos.y - 75,
+                opacity: 1,
+              });
+            }
+          });
+
+          const viewportMiddle = viewportHeight / 2;
+          let closestIndex = 0;
+          let closestDistance = Infinity;
+
+          titleElements.forEach((title, index) => {
+            const titleRect = title.getBoundingClientRect();
+            const titleCenter = titleRect.top + titleRect.height / 2;
+            const distanceFromCenter = Math.abs(titleCenter - viewportMiddle);
+
+            if (distanceFromCenter < closestDistance) {
+              closestDistance = distanceFromCenter;
+              closestIndex = index;
+            }
+          });
+
+          if (closestIndex !== currentActiveIndex) {
+            if (titleElements[currentActiveIndex]) {
+              titleElements[currentActiveIndex].style.opacity = "0.25";
+            }
+            if (titleElements[closestIndex]) {
+              titleElements[closestIndex].style.opacity = "1";
+            }
+            if (bgImageImg && items[closestIndex]) {
+              bgImageImg.src = items[closestIndex].img;
+            }
+            setCurrentActiveIndex(closestIndex);
+          }
+        } else if (progress > 0.95) {
+          if (spotlightHeader) spotlightHeader.style.opacity = "0";
+          if (titlesContainerElement) {
+            gsap.set(titlesContainerElement, {
+              "--before-opacity": "0",
+              "--after-opacity": "0",
+            });
+          }
+        }
+      },
+    });
+
+    return () => {
+      scrollTrigger.kill();
+    };
+  }, [isInitialized, items, currentActiveIndex, config]);
+
+  // Initialize refs after component mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsInitialized(true);
+    }
+  }, []);
+
+  return (
+    <div className={styles.telescopeContainer}>
+      <section id="skills" className={styles.intro}>
+        <h1>A curated series of surreal frames.</h1>
+      </section>
+
+      <section className={`${styles.spotlight} spotlight`}>
+        <div className={styles.spotlightIntroTextWrapper}>
+          {/* <div
+            className={styles.spotlightIntroText}
+            ref={(el) => {
+              if (el) introTextElementsRef.current[0] = el;
+            }}
+          >
+            <p>Beneath</p>
+          </div>
+          <div
+            className={styles.spotlightIntroText}
+            ref={(el) => {
+              if (el) introTextElementsRef.current[1] = el;
+            }}
+          >
+            <p>Beyond</p>
+          </div> */}
+        </div>
+
+        {/* <div className={styles.spotlightBgImg} ref={bgImageRef}>
+          <img
+            src={items[0]?.img || "/images/projects/Project1.png"}
+            alt=""
+            ref={bgImageImgRef}
+          />
+        </div> */}
+
+        <div
+          className={styles.spotlightTitlesContainer}
+          ref={titlesContainerElementRef}
+        >
+          <div className={styles.spotlightTitles} ref={titlesContainerRef}>
+            {items.map((item, index) => (
+              <h1
+                key={index}
+                ref={(el) => {
+                  if (el) titleElementsRef.current[index] = el;
+                }}
+                style={{ opacity: index === 0 ? "1" : "0.25" }}
+              >
+                {item.name}
+              </h1>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.spotlightImages} ref={imagesContainerRef}>
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className={styles.spotlightImg}
+              ref={(el) => {
+                if (el) imageElementsRef.current[index] = el;
+              }}
+            >
+              <Image
+                src={item.img}
+                alt={item.name}
+                width={200}
+                height={150}
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.spotlightHeader} ref={spotlightHeaderRef}>
+          <p>Discover</p>
+        </div>
+      </section>
+
+    </div>
+  );
+};
+
+export default TelescopeScroll;
