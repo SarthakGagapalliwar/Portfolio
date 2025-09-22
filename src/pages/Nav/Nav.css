@@ -82,6 +82,16 @@
   margin-bottom: 0.25rem;
 }
 
+/* Ensure social anchor links inherit color and have consistent hover */
+.socials .menu-meta a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease-out;
+}
+.socials .menu-meta a:hover {
+  color: var(--base-250);
+}
+
 .menu-meta p:nth-child(1) {
   color: var(--base-400);
   margin-bottom: 1rem;

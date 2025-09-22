@@ -112,6 +112,14 @@
   overflow: hidden;
 }
 
+.featured-projects .featured-project-card-img iframe,
+.featured-projects .featured-project-card-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .featured-projects .featured-project-card-inner::after {
   content: "";
   position: absolute;

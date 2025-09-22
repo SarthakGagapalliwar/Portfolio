@@ -2,6 +2,7 @@
 import React from "react";
 import "./FeaturedProjects.css";
 import featuredProjectsContent from "./featured-projects-content";
+import LiveEmbed from "@/components/LiveEmbed";
 
 import { useEffect } from "react";
 
@@ -14,6 +15,7 @@ interface FeaturedProject {
   description: string;
   image: string;
   githubUrl?: string;
+  liveUrl?: string;
 }
 
 const FeaturedProjects: React.FC = () => {
@@ -113,7 +115,14 @@ const FeaturedProjects: React.FC = () => {
                 </div>
               </div>
               <div className="featured-project-card-img">
-                <img src={project.image} alt={project.title} />
+                {project.liveUrl ? (
+                  <LiveEmbed
+                    src={project.liveUrl}
+                    title={`${project.title} – Live`}
+                  />
+                ) : (
+                  <img src={project.image} alt={project.title} />
+                )}
               </div>
             </div>
           </div>

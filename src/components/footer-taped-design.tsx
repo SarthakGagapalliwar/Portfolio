@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { Linkedin, Twitter } from "lucide-react";
-import { ShareButtonDemo } from "@/pages/footer/footerShare";
+import { ShareButtonDemo } from "@/pages/footerr/footerShare";
 
 const tape = (
   <svg

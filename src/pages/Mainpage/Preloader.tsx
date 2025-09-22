@@ -160,11 +160,11 @@ export default function Preloader() {
           <div className="intro-logo">
             <div className="word" id="word-1">
               <h1>
-                <span>Terrene</span>
+                <span>Sarthak</span>
               </h1>
             </div>
             <div className="word" id="word-2">
-              <h1>Balance</h1>
+              <h1>Portfolio</h1>
             </div>
           </div>
           <div className="divider"></div>

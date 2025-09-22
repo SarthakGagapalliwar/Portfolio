@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Mono, Manrope } from "next/font/google";
 import "./globals.css";
+import "./fonts.css";
 
 // Configure Google Fonts with Next.js optimization
 const manrope = Manrope({

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -33,12 +33,12 @@ const defaultItems: SpotlightItem[] = [
   { name: "Next.js", img: "/images/Icon/nextjs.png" },
   { name: "TypeScript", img: "/images/Icon/TypeScript.png" },
   { name: "Node.js", img: "/images/Icon/nodejs.png" },
-  { name: "MongoDB", img: "/images/Icon/mongodb.png" },
+  { name: "MongoDB", img: "/images/Icon/mongodb-svgrepo-com.svg" },
   { name: "Tailwind", img: "/images/Icon/tailwind.png" },
   { name: "Git", img: "/images/Icon/giticon.png" },
   { name: "C++", img: "/images/Icon/c-.png" },
   { name: "VS Code", img: "/images/Icon/vscode.png" },
-  { name: "Postman", img: "/images/Icon/Postman.png" },
+  { name: "Postman", img: "/images/Icon/postmanClear.png" },
 ];
 
 const defaultConfig: Config = {
@@ -51,7 +51,10 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
   items = defaultItems,
   config: userConfig = {},
 }) => {
-  const config = { ...defaultConfig, ...userConfig };
+  const mergedConfig = useMemo(
+    () => ({ ...defaultConfig, ...userConfig }),
+    [userConfig]
+  );
 
   const lenisRef = useRef<Lenis | null>(null);
   const titlesContainerRef = useRef<HTMLDivElement>(null);
@@ -63,7 +66,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
   const titleElementsRef = useRef<HTMLHeadingElement[]>([]);
   const bgImageRef = useRef<HTMLDivElement>(null);
   const bgImageImgRef = useRef<HTMLImageElement>(null);
-  const [currentActiveIndex, setCurrentActiveIndex] = useState(0);
+  const currentActiveIndexRef = useRef(0);
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize Lenis smooth scrolling
@@ -102,7 +105,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
     const arcStartX = containerWidth - 220;
     const arcStartY = -200;
     const arcEndY = containerHeight + 200;
-    const arcControlPointX = arcStartX + config.arcRadius;
+    const arcControlPointX = arcStartX + mergedConfig.arcRadius;
     const arcControlPointY = containerHeight / 2;
 
     const x =
@@ -117,13 +120,13 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
   };
 
   const getImgProgressState = (index: number, overallProgress: number) => {
-    const startTime = index * config.gap;
-    const endTime = startTime + config.speed;
+    const startTime = index * mergedConfig.gap;
+    const endTime = startTime + mergedConfig.speed;
 
     if (overallProgress < startTime) return -1;
     if (overallProgress > endTime) return 2;
 
-    return (overallProgress - startTime) / config.speed;
+    return (overallProgress - startTime) / mergedConfig.speed;
   };
 
   // Initialize scroll trigger
@@ -144,6 +147,11 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
     // Set initial states
     imageElements.forEach((img) => gsap.set(img, { opacity: 0 }));
 
+    const HEADER_SHOW_START = 0.011;
+    const SWITCH_START = 0.03; // start items shortly after header appears
+    const SWITCH_END = 0.95;
+    const switchSpan = SWITCH_END - SWITCH_START;
+
     const scrollTrigger = ScrollTrigger.create({
       trigger: ".spotlight",
       start: "top top",
@@ -154,7 +162,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
       onUpdate: (self) => {
         const progress = self.progress;
 
-        if (progress <= 0.011) {
+        if (progress <= HEADER_SHOW_START) {
           // const animationProgress = progress / 0.2;
           // const moveDistance = window.innerWidth * 0.6;
 
@@ -192,7 +200,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
               "--after-opacity": "0",
             });
           }
-        } else if (progress > 0.011 && progress <= 0.15) {
+        } else if (progress > HEADER_SHOW_START && progress <= SWITCH_START) {
           if (bgImage) gsap.set(bgImage, { transform: "scale(1)" });
           if (bgImageImg) gsap.set(bgImageImg, { transform: "scale(1)" });
 
@@ -208,7 +216,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
               "--after-opacity": "1",
             });
           }
-        } else if (progress > 0.15 && progress <= 0.95) {
+        } else if (progress > SWITCH_START && progress <= SWITCH_END) {
           if (bgImage) gsap.set(bgImage, { transform: "scale(1)" });
           if (bgImageImg) gsap.set(bgImageImg, { transform: "scale(1)" });
 
@@ -224,7 +232,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
             });
           }
 
-          const switchProgress = (progress - 0.15) / 0.8;
+          const switchProgress = (progress - SWITCH_START) / switchSpan;
           const viewportHeight = window.innerHeight;
           const titlesContainerHeight = titlesContainer?.scrollHeight || 0;
           const startPosition = viewportHeight;
@@ -268,17 +276,33 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
             }
           });
 
-          if (closestIndex !== currentActiveIndex) {
-            if (titleElements[currentActiveIndex]) {
-              titleElements[currentActiveIndex].style.opacity = "0.25";
+          const HYSTERESIS_PX = 4; // require a small improvement to switch
+          const currentActive = currentActiveIndexRef.current;
+          const currentActiveEl = titleElements[currentActive];
+          let currentActiveDistance = Infinity;
+          if (currentActiveEl) {
+            const rect = currentActiveEl.getBoundingClientRect();
+            currentActiveDistance = Math.abs(
+              rect.top + rect.height / 2 - viewportMiddle
+            );
+          }
+
+          const shouldSwitch =
+            closestIndex !== currentActive &&
+            closestDistance + HYSTERESIS_PX < currentActiveDistance;
+
+          if (shouldSwitch) {
+            if (currentActiveEl) {
+              currentActiveEl.style.opacity = "0.25";
             }
-            if (titleElements[closestIndex]) {
-              titleElements[closestIndex].style.opacity = "1";
+            const nextEl = titleElements[closestIndex];
+            if (nextEl) {
+              nextEl.style.opacity = "1";
             }
             if (bgImageImg && items[closestIndex]) {
               bgImageImg.src = items[closestIndex].img;
             }
-            setCurrentActiveIndex(closestIndex);
+            currentActiveIndexRef.current = closestIndex;
           }
         } else if (progress > 0.95) {
           if (spotlightHeader) spotlightHeader.style.opacity = "0";
@@ -295,7 +319,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
     return () => {
       scrollTrigger.kill();
     };
-  }, [isInitialized, items, currentActiveIndex, config]);
+  }, [isInitialized, items, mergedConfig]);
 
   // Initialize refs after component mount
   useEffect(() => {
@@ -307,7 +331,7 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
   return (
     <div className={styles.telescopeContainer}>
       <section id="skills" className={styles.intro}>
-        <h1>A snapshot of what I do best. ↓</h1>
+        <h1>A snapshot of what I do best ↓</h1>
       </section>
 
       <section className={`${styles.spotlight} spotlight`}>
@@ -381,7 +405,6 @@ const TelescopeScroll: React.FC<TelescopeScrollProps> = ({
           <p>Specialties</p>
         </div>
       </section>
-
     </div>
   );
 };

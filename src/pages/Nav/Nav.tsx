@@ -65,6 +65,8 @@ const Nav: React.FC = () => {
 
       const h2Elements = menu.querySelectorAll("h2");
       const pElements = menu.querySelectorAll("p");
+      // Specifically target social anchor links so we can animate their text too
+      const anchorElements = menu.querySelectorAll(".socials .menu-meta a");
 
       h2Elements.forEach((h2, index) => {
         const split = SplitText.create(h2, {
@@ -73,7 +75,7 @@ const Nav: React.FC = () => {
           linesClass: "split-line",
         });
 
-        gsap.set(split.lines, { y: "120%" });
+        gsap.set(split.lines, { y: "120%", opacity: 0 });
 
         split.lines.forEach((line: Element) => {
           (line as HTMLElement).style.pointerEvents = "auto";
@@ -82,14 +84,34 @@ const Nav: React.FC = () => {
         splitTextRefs.current.push(split);
       });
 
-      pElements.forEach((p, index) => {
+      pElements.forEach((p) => {
+        // If this <p> contains an <a>, we'll split the <a> instead to avoid nested/duplicate splits
+        if (p.querySelector("a")) return;
+
         const split = SplitText.create(p, {
           type: "lines",
           mask: "lines",
           linesClass: "split-line",
         });
 
-        gsap.set(split.lines, { y: "120%" });
+        gsap.set(split.lines, { y: "120%", opacity: 0 });
+
+        split.lines.forEach((line: Element) => {
+          (line as HTMLElement).style.pointerEvents = "auto";
+        });
+
+        splitTextRefs.current.push(split);
+      });
+
+      // Split and prepare the social anchor text for animation (prevents flashing before animation)
+      anchorElements.forEach((a) => {
+        const split = SplitText.create(a as HTMLElement, {
+          type: "lines",
+          mask: "lines",
+          linesClass: "split-line",
+        });
+
+        gsap.set(split.lines, { y: "120%", opacity: 0 });
 
         split.lines.forEach((line: Element) => {
           (line as HTMLElement).style.pointerEvents = "auto";
@@ -124,6 +146,7 @@ const Nav: React.FC = () => {
           splitTextRefs.current.forEach((split, index) => {
             gsap.to(split.lines, {
               y: "0%",
+              opacity: 1,
               stagger: 0.05,
               delay: 0.35 + index * 0.1,
               duration: 1,
@@ -147,7 +170,7 @@ const Nav: React.FC = () => {
               menu.style.pointerEvents = "none";
 
               splitTextRefs.current.forEach((split) => {
-                gsap.set(split.lines, { y: "120%" });
+                gsap.set(split.lines, { y: "120%", opacity: 0 });
               });
 
               document.body.classList.remove("menu-open");
@@ -164,6 +187,7 @@ const Nav: React.FC = () => {
           split.lines,
           {
             y: "-120%",
+            opacity: 0,
             stagger: 0.03,
             delay: index * 0.05,
             duration: 1,
@@ -267,6 +291,64 @@ const Nav: React.FC = () => {
     [isNavigating, lenis]
   );
 
+  const handleSendMessageClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      if (isNavigating) return;
+
+      // Close the menu first
+      setIsOpen(false);
+
+      // Wait for menu to close, then scroll to contact form section
+      setTimeout(() => {
+        const connectSection = document.getElementById("connect");
+        if (connectSection && lenis) {
+          lenis.scrollTo(connectSection, {
+            duration: 2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        } else if (connectSection) {
+          // Fallback if lenis is not available
+          connectSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 1000); // Wait for menu close animation
+    },
+    [isNavigating, lenis]
+  );
+
+  const handleConnectClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      if (isNavigating) return;
+
+      // Close the menu first
+      setIsOpen(false);
+
+      // Wait for menu to close, then scroll to footer section
+      setTimeout(() => {
+        // Scroll to bottom of page (footer)
+        if (lenis) {
+          lenis.scrollTo("bottom", {
+            duration: 2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        } else {
+          // Fallback if lenis is not available
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 1000); // Wait for menu close animation
+    },
+    [isNavigating, lenis]
+  );
+
   const splitTextIntoSpans = (text: string) => {
     return text
       .split("")
@@ -310,18 +392,12 @@ const Nav: React.FC = () => {
                 </a>
               </div>
               <div className="link">
-                <a
-                  href="/blueprints"
-                  onClick={(e) => handleLinkClick(e, "/blueprints")}
-                >
-                  <h2>Blueprints</h2>
+                <a href="#connect" onClick={(e) => handleSendMessageClick(e)}>
+                  <h2>Send Message</h2>
                 </a>
               </div>
               <div className="link">
-                <a
-                  href="/connect"
-                  onClick={(e) => handleLinkClick(e, "/connect")}
-                >
+                <a href="#footer" onClick={(e) => handleConnectClick(e)}>
                   <h2>Connect</h2>
                 </a>
               </div>
@@ -332,21 +408,48 @@ const Nav: React.FC = () => {
               <div className="sub-col">
                 <div className="menu-meta menu-commissions">
                   <p>Commissions</p>
-                  <p>build@terrene.studio</p>
-                  <p>+1 (872) 441‑2086</p>
+                  <p>sarthakgagapalliwar07@gmail.com</p>
+                  <p>+91 7028934655</p>
                 </div>
                 <div className="menu-meta">
-                  <p>Studio Address</p>
-                  <p>18 Cordova Lane</p>
-                  <p>Seattle, WA 98101</p>
+                  <p>Current Address</p>
+                  <p>Lovely Professional University</p>
+                  <p>Punjab, pincode 144401</p>
                 </div>
               </div>
               <div className="sub-col">
                 <div className="menu-meta">
                   <p>Social</p>
-                  <p>Instagram</p>
-                  <p>Are.na</p>
-                  <p>LinkedIn</p>
+                  <p>
+                    <a
+                      href="https://www.instagram.com/sarthak_5109?igsh=MWZ4OXlmbDFlcTJzZA=="
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "inherit", textDecoration: "none" }}
+                    >
+                      Instagram
+                    </a>
+                  </p>
+                  <p>
+                    <a
+                      href="https://github.com/SarthakGagapalliwar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "inherit", textDecoration: "none" }}
+                    >
+                      GitHub
+                    </a>
+                  </p>
+                  <p>
+                    <a
+                      href="https://www.linkedin.com/in/sarthak-gagapalliwar/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "inherit", textDecoration: "none" }}
+                    >
+                      LinkedIn
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>

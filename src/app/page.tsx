@@ -7,6 +7,10 @@ import Preloader from "@/pages/Mainpage/Preloader";
 import Work from "@/pages/Work";
 import Nav from "@/pages/Nav/Nav";
 import { TelescopeScroll } from "@/pages/skills";
+import ContactForm from "@/pages/ContactForm/ContactForm";
+import Footer from "@/pages/Footer";
+import FooterNew from "@/pages/Footer/Footer";
+
 
 const HomePage = () => {
   // Initialize Lenis for smooth scrolling
@@ -38,7 +42,9 @@ const HomePage = () => {
       <div>
         {/* <Preloader /> */}
         <Project />
-        <TelescopeScroll/>
+        <TelescopeScroll />
+        <ContactForm/>
+        <FooterNew/>
       </div>
     </ReactLenis>
   );

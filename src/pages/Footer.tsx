@@ -1,14 +1,14 @@
-import React from 'react'
-import DemoOne from './footer/footerUperr'
-import { CustomCrowd } from './footer/footertBottm'
+import React from "react";
+import DemoOne from "./footerr/footerUperr";
+import { CustomCrowd } from "./footerr/footertBottm";
 
 const Footer = () => {
   return (
-     <div className="">
-        <DemoOne/>
-        <CustomCrowd />
-      </div>
-  )
-}
+    <div className="">
+      <DemoOne />
+      <CustomCrowd />
+    </div>
+  );
+};
 
 export default Footer;
