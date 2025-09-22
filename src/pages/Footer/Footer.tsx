@@ -118,7 +118,7 @@ const FooterNew: React.FC = () => {
       borderTop: "1px dashed var(--base-300)",
     },
     copyrightText: {
-      fontFamily: 'var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace',
+  fontFamily: 'var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace',
       fontSize: "0.8rem",
       fontWeight: 600,
       letterSpacing: "0.04em",
@@ -128,7 +128,7 @@ const FooterNew: React.FC = () => {
       margin: 0,
     },
     copyrightTextRight: {
-      fontFamily: 'var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace',
+  fontFamily: 'var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace',
       fontSize: "0.8rem",
       fontWeight: 600,
       letterSpacing: "0.04em",
@@ -144,7 +144,7 @@ const FooterNew: React.FC = () => {
       border: "none",
       padding: "1em 2em",
       borderRadius: "0.4em",
-      fontFamily: '"Messina Sans Mono", monospace',
+  fontFamily: 'var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace',
       fontSize: "0.8rem",
       fontWeight: 600,
       cursor: "pointer",
@@ -176,7 +176,7 @@ const FooterNew: React.FC = () => {
         <div style={styles.footerContact}>
           <h3 style={styles.contactTitle}>
             Let's Collaborate <br />
-            sarthak<span style={styles.contactSpan}>@</span>gagapalliwar07.com
+            sarthakgagapalliwar07<span style={styles.contactSpan}>@</span>gmail.com
           </h3>
 
           <p style={styles.contactDescription}>

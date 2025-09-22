@@ -34,8 +34,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0f0f0f;
-  color: #fff;
+  background-color: var(--base-500);
+  color: var(--base-100);
 }
 
 .spotlightIntroTextWrapper {
@@ -96,7 +96,7 @@
   position: absolute;
   width: 100svh;
   height: 2.5px;
-  background: #fff;
+  background: var(--base-100);
   pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 10;
@@ -129,7 +129,7 @@
 }
 
 .spotlightTitles h1 {
-  color: #fff;
+  color: var(--base-100);
   opacity: 0.25;
   transition: opacity 0.3s ease;
 }
@@ -157,7 +157,7 @@
   top: 50%;
   left: 10%;
   transform: translateY(-50%);
-  color: #fff;
+  color: var(--base-100);
   transition: opacity 0.3s ease;
   z-index: 2;
   opacity: 0;

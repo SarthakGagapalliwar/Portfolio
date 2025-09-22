@@ -3,9 +3,7 @@ import { HeroSection } from "@/pages/Hero/fontpart";
 import FeaturedProjects from './Work/FeaturedProjects/FeaturedProjects';
 function Project() {
   return (
-    // <main className="min-h-screen bg-white dark:bg-black snap-y snap-mandatory overflow-y-scroll">
-    //       <HeroSection />
-    //     </main>
+    
     <FeaturedProjects></FeaturedProjects>
   )
 }

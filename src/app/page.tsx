@@ -4,12 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 import Project from "@/pages/Project";
 import Preloader from "@/pages/Mainpage/Preloader";
-import Work from "@/pages/Work";
 import Nav from "@/pages/Nav/Nav";
 import { TelescopeScroll } from "@/pages/skills";
 import ContactForm from "@/pages/ContactForm/ContactForm";
-import Footer from "@/pages/Footer";
 import FooterNew from "@/pages/Footer/Footer";
+import Home from "@/pages/FontMain/Home"
 
 
 const HomePage = () => {
@@ -40,7 +39,8 @@ const HomePage = () => {
     >
       <Nav />
       <div>
-        {/* <Preloader /> */}
+        <Preloader />
+        <Home />
         <Project />
         <TelescopeScroll />
         <ContactForm/>
@@ -51,3 +51,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+                               

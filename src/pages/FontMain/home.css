@@ -1,0 +1,30 @@
+.hero-header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 45;
+  color: var(--base-100);
+}
+
+.home-logo {
+  position: absolute;
+  top: 2em;
+  right: 2em;
+  z-index: 45;
+}
+
+.live-clock {
+  position: absolute;
+  top: 2em;
+  left: 2em;
+  z-index: 45;
+}
+
+.live-clock p {
+  font-family: var(--font-dm-mono), "DM Mono", "JetBrains Mono", monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--base-300);
+}

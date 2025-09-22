@@ -11,6 +11,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-slot": "^1.2.3",
+    "@splinetool/react-spline": "^4.1.0",
     "@types/react-router-dom": "^5.3.3",
     "class-variance-authority": "^0.7.1",
     "gsap": "^3.13.0",
@@ -20,6 +21,7 @@
     "next": "^15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.9.1",
     "split-type": "^0.3.4"
   },

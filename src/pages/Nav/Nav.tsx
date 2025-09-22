@@ -411,11 +411,11 @@ const Nav: React.FC = () => {
                   <p>sarthakgagapalliwar07@gmail.com</p>
                   <p>+91 7028934655</p>
                 </div>
-                <div className="menu-meta">
+                {/* <div className="menu-meta">
                   <p>Current Address</p>
                   <p>Lovely Professional University</p>
                   <p>Punjab, pincode 144401</p>
-                </div>
+                </div> */}
               </div>
               <div className="sub-col">
                 <div className="menu-meta">
