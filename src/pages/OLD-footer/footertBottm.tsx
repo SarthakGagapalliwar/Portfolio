@@ -14,3 +14,4 @@ const CustomCrowd = () => {
   );
 };
 export { CustomCrowd, DemoSkiper39 };
+export default DemoSkiper39;

@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger, CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
 export default function Preloader() {
-  const tagsRef = useRef(null);
+  const tagsRef = useRef<HTMLDivElement | null>(null);
   const [showPreloader, setShowPreloader] = useState(isInitialLoad);
   const [loaderAnimating, setLoaderAnimating] = useState(false);
   const lenis = useLenis();
@@ -87,8 +87,9 @@ export default function Preloader() {
       tl.to(".divider", {
         scaleY: "100%",
         duration: 1,
-        onComplete: () =>
-          gsap.to(".divider", { opacity: 0, duration: 0.3, delay: 0.3 }),
+        onComplete: () => {
+          gsap.to(".divider", { opacity: 0, duration: 0.3, delay: 0.3 });
+        },
       });
 
       tl.to("#word-1 h1", {
@@ -128,9 +129,10 @@ export default function Preloader() {
 
   useGSAP(
     () => {
-      if (!tagsRef.current) return;
+      const container = tagsRef.current;
+      if (!container) return;
 
-      const tags = tagsRef.current.querySelectorAll(".what-we-do-tag");
+      const tags = container.querySelectorAll(".what-we-do-tag");
       gsap.set(tags, { opacity: 0, x: -40 });
 
       ScrollTrigger.create({

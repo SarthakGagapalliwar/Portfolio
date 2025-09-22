@@ -85,15 +85,16 @@ export function HeroSection() {
 
       {/* Project 3 - AI/ML Project */}
       <ProjectSection
-  title="AI-Powered"
-  subtitle="Solution"
-  description="An AI-powered web application built with React, Tailwind CSS, and JavaScript, integrating the Gemini API to generate accurate text-based solutions. Designed for fast, reliable, and user-friendly AI interactions."
-  imageSrc="/images/projects/Project33.png"
-  imageAlt="AI-Powered Solution with Gemini API"
-  gradientFrom="from-cyan-600"
-  gradientTo="to-purple-600"
-/>
-
+        title="AI-Powered"
+        subtitle="Solution"
+        description="An AI-powered web application built with React, Tailwind CSS, and JavaScript, integrating the Gemini API to generate accurate text-based solutions. Designed for fast, reliable, and user-friendly AI interactions."
+        imageSrc="/images/projects/Project33.png"
+        imageAlt="AI-Powered Solution with Gemini API"
+        gradientFrom="from-cyan-600"
+        gradientTo="to-purple-600"
+      />
     </div>
   );
 }
+
+export default HeroSection;

@@ -66,3 +66,5 @@ export function ShareButtonDemo(): JSX.Element {
     </div>
   );
 }
+
+export default ShareButtonDemo;

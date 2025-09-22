@@ -1,5 +1,5 @@
 import React from "react";
-import { TelescopeScroll, SpotlightItem } from "./index";
+import TelescopeScroll, { SpotlightItem } from "./TelescopeScroll";
 
 // Example usage with custom items
 const customItems: SpotlightItem[] = [

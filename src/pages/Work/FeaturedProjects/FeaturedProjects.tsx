@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import "./FeaturedProjects.css";
-import featuredProjectsContent from "./featured-projects-content";
+import featuredProjectsContent from "@/data/featured-projects-content";
 import LiveEmbed from "@/components/LiveEmbed";
 
 import { useEffect } from "react";

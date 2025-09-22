@@ -383,14 +383,14 @@ const Nav: React.FC = () => {
                   <h2>Skills</h2>
                 </a>
               </div>
-              <div className="link">
+              {/* <div className="link">
                 <a
                   href="/sample-space"
                   onClick={(e) => handleLinkClick(e, "/sample-space")}
                 >
                   <h2>One Installation</h2>
                 </a>
-              </div>
+              </div> */}
               <div className="link">
                 <a href="#connect" onClick={(e) => handleSendMessageClick(e)}>
                   <h2>Send Message</h2>

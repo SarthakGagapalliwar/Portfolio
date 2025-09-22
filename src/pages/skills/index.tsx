@@ -4,6 +4,9 @@ export type {
   SpotlightItem,
   Config,
 } from "./TelescopeScroll";
-
-// You can also re-export with a different name if needed
 export { default as SkillsTelescopeAnimation } from "./TelescopeScroll";
+
+import SkillsPage from "./SkillsPage";
+export default function SkillsIndexPage() {
+  return <SkillsPage />;
+}
