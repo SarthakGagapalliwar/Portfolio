@@ -157,7 +157,7 @@ const AnimatedButton = ({
         onClick={(e) => {
           e.preventDefault();
           const link = document.createElement("a");
-          link.href = "/resume.pdf";
+          link.href = "/resumeNew.pdf";
           link.download = "Sarthak_Resume.pdf";
           document.body.appendChild(link);
           link.click();
