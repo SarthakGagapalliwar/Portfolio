@@ -13,12 +13,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create transporter using Gmail
-    const transporter = nodemailer.createTransporter({
-      service: "gmail",
+    // Validate environment variables
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+      return NextResponse.json(
+        { error: "Email service not configured" },
+        { status: 500 }
+      );
+    }
+
+    // Create transporter using Gmail SMTP
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_APP_PASSWORD, // Your Gmail app password
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, ""),
       },
     });
 
