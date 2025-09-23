@@ -19,7 +19,13 @@ interface FeaturedProject {
 }
 
 const FeaturedProjects: React.FC = () => {
+  const [isMobile, setIsMobile] = React.useState<boolean>(false);
+
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
     gsap.registerPlugin(ScrollTrigger);
 
     const featuredProjectCards = gsap.utils.toArray<HTMLElement>(
@@ -36,7 +42,7 @@ const FeaturedProjects: React.FC = () => {
 
           if (!featuredProjectCardInner) return;
 
-          const isMobile = window.innerWidth <= 1000;
+          const isSmall = window.innerWidth <= 1000;
 
           gsap.fromTo(
             featuredProjectCardInner,
@@ -51,7 +57,7 @@ const FeaturedProjects: React.FC = () => {
               rotationX: 45,
               scrollTrigger: {
                 trigger: featuredProjectCards[index + 1],
-                start: isMobile ? "top 85%" : "top 100%",
+                start: isSmall ? "top 85%" : "top 100%",
                 end: "top -75%",
                 scrub: true,
                 pin: featuredProjectCard,
@@ -75,6 +81,7 @@ const FeaturedProjects: React.FC = () => {
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -115,13 +122,14 @@ const FeaturedProjects: React.FC = () => {
                 </div>
               </div>
               <div className="featured-project-card-img">
-                {project.liveUrl ? (
+                {/* On mobile show static image; on desktop show live embed when available */}
+                {isMobile || !project.liveUrl ? (
+                  <img src={project.image} alt={project.title} />
+                ) : (
                   <LiveEmbed
                     src={project.liveUrl}
                     title={`${project.title} – Live`}
                   />
-                ) : (
-                  <img src={project.image} alt={project.title} />
                 )}
               </div>
             </div>

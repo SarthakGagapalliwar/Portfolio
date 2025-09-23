@@ -28,3 +28,22 @@
   font-size: 13px;
   color: var(--base-300);
 }
+
+/* Ensure top alignment between clock and Get CV button */
+.home-logo .btn {
+  margin: 0; /* remove default margin from button */
+}
+
+.live-clock p {
+  margin: 0; /* remove default paragraph margin */
+}
+
+/* On mobile, align centers of clock and button using equal container height */
+@media (max-width: 1000px) {
+  .home-logo,
+  .live-clock {
+    display: flex;
+    align-items: center;
+    height: 3rem; /* match the button's circle height */
+  }
+}

@@ -270,7 +270,6 @@ const FooterNew: React.FC = () => {
 
         <div style={styles.footerCopyrightLine}>
           <p style={styles.copyrightText}>&copy; Sarthak Gagapalliwar 2025</p>
-          <p style={styles.copyrightTextRight}>Website Template by sarthak</p>
         </div>
       </div>
     </div>
