@@ -320,6 +320,35 @@ const Nav: React.FC = () => {
     [isNavigating, lenis]
   );
 
+  const handleIndexClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+
+      if (isNavigating) return;
+
+      // Close the menu first
+      setIsOpen(false);
+
+      // Wait for menu to close, then scroll to index section
+      setTimeout(() => {
+        const indexSection = document.getElementById("index");
+        if (indexSection && lenis) {
+          lenis.scrollTo(indexSection, {
+            duration: 2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          });
+        } else if (indexSection) {
+          // Fallback if lenis is not available
+          indexSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 1000); // Wait for menu close animation
+    },
+    [isNavigating, lenis]
+  );
+
   const handleConnectClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -369,7 +398,7 @@ const Nav: React.FC = () => {
           <div className="col col-1">
             <div className="links">
               <div className="link">
-                <a href="/" onClick={(e) => handleLinkClick(e, "/")}>
+                <a href="#index" onClick={(e) => handleIndexClick(e)}>
                   <h2>Index</h2>
                 </a>
               </div>

@@ -1,6 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 const ContactForm: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const styles = {
     contactForm: {
       width: "100vw",
@@ -179,13 +239,15 @@ const ContactForm: React.FC = () => {
           </div>
         </div>
         <div style={styles.rightCol}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div style={styles.formItem}>
               <input
                 type="text"
                 name="name"
                 placeholder="Your name"
                 required
+                value={formData.name}
+                onChange={handleInputChange}
                 style={styles.input}
               />
             </div>
@@ -195,6 +257,8 @@ const ContactForm: React.FC = () => {
                 name="email"
                 placeholder="Email address"
                 required
+                value={formData.email}
+                onChange={handleInputChange}
                 style={styles.input}
               />
             </div>
@@ -204,6 +268,8 @@ const ContactForm: React.FC = () => {
                 name="subject"
                 placeholder="Subject"
                 required
+                value={formData.subject}
+                onChange={handleInputChange}
                 style={styles.input}
               />
             </div>
@@ -212,11 +278,53 @@ const ContactForm: React.FC = () => {
                 name="message"
                 placeholder="Tell me about your project..."
                 required
+                value={formData.message}
+                onChange={handleInputChange}
                 style={styles.textarea}
               ></textarea>
             </div>
-            <button type="submit" style={styles.button}>
-              Send Message
+            {submitStatus === "success" && (
+              <div
+                style={{
+                  color: "var(--base-100)",
+                  backgroundColor: "rgba(34, 197, 94, 0.1)",
+                  border: "1px dashed rgba(34, 197, 94, 0.3)",
+                  padding: "1em",
+                  borderRadius: "0.4em",
+                  marginBottom: "1em",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                }}
+              >
+                Message sent successfully! I'll get back to you soon.
+              </div>
+            )}
+            {submitStatus === "error" && (
+              <div
+                style={{
+                  color: "var(--base-100)",
+                  backgroundColor: "rgba(239, 68, 68, 0.1)",
+                  border: "1px dashed rgba(239, 68, 68, 0.3)",
+                  padding: "1em",
+                  borderRadius: "0.4em",
+                  marginBottom: "1em",
+                  fontSize: "0.9rem",
+                  fontWeight: 600,
+                }}
+              >
+                Failed to send message. Please try again or email me directly.
+              </div>
+            )}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              style={{
+                ...styles.button,
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+              }}
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

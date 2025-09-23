@@ -1,16 +1,13 @@
 import React from "react";
 import Spline from "@splinetool/react-spline";
 import "./home.css";
-
-import { FaSquareFull } from "react-icons/fa";
-
 import LiveClockUpdate from "./LiveClockUpdate";
 import AnimatedButton from "@/components/ui/AnimatedButton/AnimatedButton";
 
 const Home = () => {
   return (
-    <>
-      <div
+    < >
+      <div id="index"
         style={{
           position: "relative",
           width: "100vw",
@@ -38,7 +35,7 @@ const Home = () => {
         />
       </div>
 
-      <div className="hero-header">
+      <div className="hero-header" >
         <h1>Where design meets engineering.</h1>
         {/* <h1>By Soren</h1> */}
       </div>
