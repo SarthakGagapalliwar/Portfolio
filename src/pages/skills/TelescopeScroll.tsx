@@ -37,7 +37,7 @@ const defaultItems: SpotlightItem[] = [
   { name: "Tailwind", img: "/images/Icon/tailwind.png" },
   { name: "Git", img: "/images/Icon/giticon.png" },
   { name: "C++", img: "/images/Icon/c-.png" },
-  { name: "VS Code", img: "/images/Icon/vscode.png" },
+  { name: "JavaScript", img: "/images/Icon/javascript.png" },
   { name: "Postman", img: "/images/Icon/postmanClear.png" },
 ];
 
