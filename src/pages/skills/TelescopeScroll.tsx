@@ -33,11 +33,11 @@ const defaultItems: SpotlightItem[] = [
   { name: "Next.js", img: "/images/Icon/nextjs.png" },
   { name: "TypeScript", img: "/images/Icon/TypeScript.png" },
   { name: "Node.js", img: "/images/Icon/nodejs.png" },
-  { name: "MongoDB", img: "/images/Icon/mongodb-svgrepo-com.svg" },
+  { name: "MongoDB", img: "/images/Icon/playstore.png" },
   { name: "Tailwind", img: "/images/Icon/tailwind.png" },
   { name: "Git", img: "/images/Icon/giticon.png" },
   { name: "C++", img: "/images/Icon/c-.png" },
-  { name: "JavaScript", img: "/images/Icon/javascript.png" },
+  { name: "JavaScript", img: "/images/Icon/javascript2.png" },
   { name: "Postman", img: "/images/Icon/postmanClear.png" },
 ];
 
