@@ -20,13 +20,13 @@ Your contact form is ready! Choose one of two methods:
 
    - In Google Account Settings: Security > 2-Step Verification > App passwords
    - Select "Mail" as the app type
-   - Copy the 16-character password (format: xxxx-xxxx-xxxx-xxxx)
+   - Copy the 16-character password (Google shows spaces—remove any spaces or hyphens when you paste it)
 
 3. **Update `.env.local` file:**
 
    ```env
    GMAIL_USER=sarthakgagapalliwar07@gmail.com
-   GMAIL_APP_PASSWORD=your-16-character-app-password-here
+   GMAIL_APP_PASSWORD=your16characterapppass
    ```
 
 4. **Restart your development server:**
@@ -101,7 +101,7 @@ Your contact form is ready! Choose one of two methods:
 **Email not sending?**
 
 1. Check `.env.local` file exists and has correct values
-2. Verify Gmail app password is 16 characters (no spaces)
+2. Verify Gmail app password is 16 characters (only letters/numbers, no spaces or hyphens)
 3. Ensure 2FA is enabled on Gmail
 4. Restart your development server after env changes
 

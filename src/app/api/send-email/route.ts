@@ -21,6 +21,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Sanitize and validate the Gmail app password (should be 16 chars alphanumeric)
+    const sanitizedAppPassword = process.env.GMAIL_APP_PASSWORD.replace(
+      /[^a-zA-Z0-9]/g,
+      ""
+    );
+
+    if (sanitizedAppPassword.length !== 16) {
+      return NextResponse.json(
+        {
+          error:
+            "Email service misconfigured. Please verify your 16-character Gmail app password.",
+        },
+        { status: 500 }
+      );
+    }
+
     // Create transporter using Gmail SMTP
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -28,7 +44,7 @@ export async function POST(request: NextRequest) {
       secure: true,
       auth: {
         user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD?.replace(/\s/g, ""),
+        pass: sanitizedAppPassword,
       },
     });
 
@@ -85,6 +101,22 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error sending email:", error);
+
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "EAUTH"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Email service rejected the credentials. Double-check the Gmail address and app password.",
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to send email" },
       { status: 500 }
