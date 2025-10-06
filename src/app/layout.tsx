@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DM_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import "./fonts.css";
-
+import { SpeedInsights } from '@vercel/speed-insights/next';
 // Configure Google Fonts with Next.js optimization
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -33,6 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${manrope.variable} ${dmMono.variable} antialiased`}>
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
